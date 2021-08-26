@@ -1,0 +1,41 @@
+-- creating new table
+CREATE TABLE persons (
+  id SERIAL,
+  first_name VARCHAR(50),
+  last_name VARCHAR(50),
+  dob DATE,
+  email VARCHAR(255),
+  PRIMARY KEY (id)
+);
+
+-- copy data into table
+COPY persons(first_name, last_name, dob, email)
+FROM 'C:\sampledb\persons.csv'
+DELIMITER ','
+CSV HEADER;
+
+-- query to confirm
+select *
+from persons;
+
+
+CREATE TABLE stocks (
+  id SERIAL,
+  stock VARCHAR(10),
+  date DATE,
+  closing_price NUMERIC(8,2)
+);
+
+-- copy data into table
+COPY stocks(id, stock, date, closing_price)
+FROM 'C:\sampledb\netflix_prices.csv'
+DELIMITER ','
+CSV HEADER;
+
+COPY stocks(id, stock, date, closing_price)
+FROM 'C:\sampledb\sq_prices.csv'
+DELIMITER ','
+CSV HEADER;
+
+select *
+from stocks
