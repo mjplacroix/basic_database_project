@@ -37,5 +37,11 @@ FROM 'C:\sampledb\sq_prices.csv'
 DELIMITER ','
 CSV HEADER;
 
+COPY stocks(stock, date, closing_price)
+FROM 'C:\Users\mlacroix_smartasset\data_project\tesla_prices.csv'
+DELIMITER ','
+CSV HEADER;
+
+
 select *
 from stocks
