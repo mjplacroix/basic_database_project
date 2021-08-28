@@ -8,6 +8,7 @@ psycopg2-binary = "*"
 psycopg2 = "*"
 requests = "*"
 pandas = "*"
+sqlalchemy = "*"
 
 [dev-packages]
 
