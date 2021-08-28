@@ -21,7 +21,7 @@ cur.execute("""
 query_results = cur.fetchall()
 print(query_results)
 
-df = pd.read_csv(r'C:\Users\mlacroix_smartasset\data_project\tesla_prices.csv')
+df = pd.read_csv(r'C:\Users\mlacroix_smartasset\data_project\stock_1')
 print(df.head())
 print(df.shape)
 df.reset_index()

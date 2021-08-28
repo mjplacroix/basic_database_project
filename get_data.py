@@ -1,7 +1,9 @@
 import requests
 import pandas as pd
 import psycopg2
+from sqlalchemy import create_engine
 import config
+import csv
 
 # set list of stocks to request previous day history on
 stock_list = ['twtr', 'nflx', 'tsla', 'sq', 'arkq']
@@ -20,6 +22,49 @@ for stock in stock_list:
     new_price_data.append(individual_data)
 
 print(new_price_data)
+
+df = pd.DataFrame(new_price_data, columns = ['stock','date','closing_price'])
+
+
+
+# connect to postgresql database
+conn = psycopg2.connect(host="localhost", 
+                        port = 5432, 
+                        database="dvdrental", 
+                        user="postgres", 
+                        password=config.postgresql_password)
+cur = conn.cursor()
+# first request
+cur.execute("""
+            SELECT s.stock, COUNT(s.stock)
+            FROM stocks s
+            GROUP BY 1;
+            """)
+query_results = cur.fetchall()
+print(query_results)
+
+# connect from client side to add data to table
+engine = create_engine(f'postgresql://postgres:{config.postgresql_password}@localhost:5432/dvdrental')
+
+# add data to table
+df.to_sql('stocks', engine, if_exists='append', index=False)
+
+# second request to confirm successful addition
+cur.execute("""
+            SELECT s.stock, COUNT(s.stock)
+            FROM stocks s
+            GROUP BY 1;
+            """)
+query_results = cur.fetchall()
+print(query_results)
+
+# close connection
+cur.close()
+conn.close()
+
+
+
+
 
 # convert full list to dataframe
 
